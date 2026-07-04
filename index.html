@@ -347,16 +347,50 @@
     .hero-visual {
       display: flex;
       justify-content: center;
-      align-items: flex-end;
+      align-items: center;
       position: relative;
     }
-    .hero-art {
-      width: 220px;
-      /* blend white PNG background into cream page — no visible white box */
-      mix-blend-mode: multiply;
-      filter: drop-shadow(0 12px 24px rgba(0,52,30,0.12));
+
+    /* Deliberate brand-tinted card — chosen, not leftover */
+    .hero-art-card {
+      background: #E4F0EA;
+      border-radius: 24px;
+      padding: 28px;
+      width: 100%;
+      max-width: 320px;
+      max-height: 340px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 40px rgba(0,107,63,0.12), inset 0 1px 0 rgba(255,255,255,0.6);
+      position: relative;
+      overflow: hidden;
     }
-    @media (min-width: 1024px) { .hero-art { width: 300px; } }
+    /* Soft radial glow behind the umbrella — grounds it */
+    .hero-art-card::before {
+      content: '';
+      position: absolute;
+      width: 200px; height: 200px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(0,107,63,0.10) 0%, transparent 70%);
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+
+    .hero-art {
+      width: 100%;
+      max-width: 240px;
+      height: auto;
+      object-fit: contain; /* full umbrella always visible, never cropped */
+      display: block;
+      position: relative;
+      z-index: 1;
+    }
+    @media (min-width: 1024px) {
+      .hero-art-card { max-width: 380px; max-height: 420px; padding: 36px; }
+      .hero-art { max-width: 300px; }
+    }
 
     /* Floating stat cards — desktop only */
     .float-card {
@@ -604,9 +638,10 @@
       line-height: 24px;
       margin-bottom: 14px;
     }
-    .pill-admin { background: rgba(206,17,38,0.08); color: var(--c-red); }
-    .pill-ha    { background: rgba(245,183,0,0.12); color: #7A5C00; }
-    .pill-pers  { background: var(--c-green-tint); color: var(--c-green); }
+    /* All role pills: solid green, white text — consistent, no AI-gradient palette */
+    .pill-admin,
+    .pill-ha,
+    .pill-pers  { background: var(--c-green); color: #ffffff; letter-spacing: 0.06em; }
 
     .role-title {
       font-family: 'Bricolage Grotesque', sans-serif;
@@ -755,7 +790,7 @@
         </div>
 
         <h1 class="hero-h1 reveal reveal-delay-1">
-          The membership register,<br />built for NDC.
+          The membership register,<br />Tema West.
         </h1>
 
         <p class="hero-sub reveal reveal-delay-2">
@@ -796,13 +831,15 @@
           <span class="fc-sub">Tema West</span>
         </div>
 
-        <!-- Umbrella art — mix-blend-mode: multiply kills the white bg on cream page -->
-        <img
-          class="hero-art"
-          src="hero-umbrella.png"
-          alt="NDC umbrella with membership records"
-          width="300" height="300"
-        />
+        <!-- Brand-tinted card: deliberate green surface, no visible seam -->
+        <div class="hero-art-card">
+          <img
+            class="hero-art"
+            src="hero-umbrella.png"
+            alt="NDC umbrella with membership records"
+            width="480" height="480"
+          />
+        </div>
       </div>
     </div>
   </section>
