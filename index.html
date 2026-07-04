@@ -295,12 +295,6 @@
       color: var(--c-green);
       margin-bottom: 16px;
     }
-    .hero-dot {
-      width: 6px; height: 6px;
-      border-radius: 50%;
-      background: var(--c-gold);
-      flex-shrink: 0;
-    }
 
     .hero-h1 {
       font-size: var(--t-h1);
@@ -651,22 +645,19 @@
       text-align: center;
     }
     .download-icon {
-      width: 64px; height: 64px;
-      border-radius: 16px;
-      background: rgba(255,255,255,0.08);
-      border: 1px solid rgba(255,255,255,0.12);
+      width: 80px; height: 80px;
+      border-radius: 50%;
+      /* Glow ring — no square, fully circular */
+      box-shadow: 0 0 0 6px rgba(255,255,255,0.08), 0 0 0 12px rgba(255,255,255,0.04);
+      margin: 0 auto 24px;
       overflow: hidden;
-      display: flex; align-items: center; justify-content: center;
-      margin: 0 auto 20px;
     }
     .download-icon img {
-      width: 52px; height: 52px;
-      object-fit: contain;
-      mix-blend-mode: multiply;
-      /* On dark bg multiply doesn't help — use luminosity instead */
+      width: 80px; height: 80px;
+      object-fit: cover;
+      border-radius: 50%;
+      display: block;
     }
-    /* Reset blend on dark section, just show the icon naturally */
-    .download-icon img { mix-blend-mode: normal; filter: brightness(1.05); }
 
     .download h2 {
       font-size: clamp(22px, 6vw, 32px);
@@ -760,7 +751,6 @@
       <!-- Copy — first in DOM = first on mobile viewport -->
       <div class="hero-copy">
         <div class="hero-badge reveal">
-          <div class="hero-dot"></div>
           NDC Tema West Constituency
         </div>
 
@@ -833,9 +823,9 @@
   <section class="features" id="features">
     <div class="wrap">
       <div class="features-header">
-        <div class="eyebrow">What It Does</div>
-        <h2 class="section-title">Built for NDC, nothing generic.</h2>
-        <p class="section-sub">Purpose-built for the constituency's registration process — not a generic form builder.</p>
+        <div class="eyebrow">Features</div>
+        <h2 class="section-title">Everything the team needs<br />to run the register.</h2>
+        <p class="section-sub">From first registration to final approval — one app handles the full lifecycle.</p>
       </div>
 
       <div class="feat-grid">
@@ -889,16 +879,16 @@
 
       <div class="stat-row reveal">
         <div class="stat-cell">
-          <div class="stat-value">100k+</div>
-          <div class="stat-label">Member capacity</div>
+          <div class="stat-value">Under 5 min</div>
+          <div class="stat-label">Average registration time</div>
         </div>
         <div class="stat-cell">
-          <div class="stat-value">283</div>
-          <div class="stat-label">Polling stations</div>
+          <div class="stat-value">Real-time</div>
+          <div class="stat-label">Approvals visible across all devices</div>
         </div>
         <div class="stat-cell">
-          <div class="stat-value">0</div>
-          <div class="stat-label">Records lost offline</div>
+          <div class="stat-value">Always on</div>
+          <div class="stat-label">Submissions queue offline, sync on reconnect</div>
         </div>
       </div>
     </div>
