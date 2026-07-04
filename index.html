@@ -221,8 +221,22 @@
       font-size: 17px;
       font-weight: 700;
       color: var(--c-white);
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
-    .nav-name span { color: var(--c-gold); }
+    /* NDC as a white pill with black text — NDC brand colors: green, red, black, white */
+    .nav-name span {
+      display: inline-block;
+      background: var(--c-white);
+      color: var(--c-ink);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      padding: 2px 8px;
+      border-radius: 6px;
+      line-height: 1.5;
+    }
 
     .nav-links {
       display: none;
@@ -806,7 +820,6 @@
         </div>
 
         <div class="trust-chips reveal reveal-delay-3">
-          <span class="trust-chip"><i class="ph-fill ph-wifi-slash"></i> Works offline</span>
           <span class="trust-chip"><i class="ph-fill ph-shield-check"></i> Role-based</span>
           <span class="trust-chip"><i class="ph-fill ph-map-pin"></i> GPS capture</span>
         </div>
