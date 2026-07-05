@@ -1,13 +1,16 @@
-// Vercel Edge Function — streams the APK directly from GitHub release.
-// Users see only yoursite.vercel.app/download — no GitHub URL, ever.
+// Vercel Edge Function — redirects to the latest APK on GitHub Releases.
+// Streaming 30MB+ through an edge function hits timeout limits; a redirect
+// is instant, reliable, and lets the CDN serve the file at full speed.
 export const config = { runtime: 'edge' };
 
-const REPO = 'adonisdamson/vanguard';
+const REPO  = 'adonisdamson/vanguard';
 const ASSET = 'vanguard-latest.apk';
+
+// Permanent fallback — always resolves to latest release asset on GitHub CDN
+const FALLBACK = `https://github.com/${REPO}/releases/latest/download/${ASSET}`;
 
 export default async function handler(req) {
   try {
-    // 1. Ask GitHub API for the latest release
     const apiRes = await fetch(
       `https://api.github.com/repos/${REPO}/releases/latest`,
       {
@@ -22,38 +25,16 @@ export default async function handler(req) {
       }
     );
 
-    if (!apiRes.ok) {
-      return new Response(`GitHub API error: ${apiRes.status}`, { status: 502 });
-    }
+    if (!apiRes.ok) return Response.redirect(FALLBACK, 302);
 
     const release = await apiRes.json();
-    const asset = release.assets?.find(a => a.name === ASSET);
+    const asset   = release.assets?.find(a => a.name === ASSET);
 
-    if (!asset) {
-      return new Response('APK not available yet — check back shortly.', {
-        status: 503,
-        headers: { 'Content-Type': 'text/plain' },
-      });
-    }
+    // Redirect to CDN — browser downloads directly at full speed, no edge buffering
+    const downloadUrl = asset?.browser_download_url ?? FALLBACK;
+    return Response.redirect(downloadUrl, 302);
 
-    // 2. Fetch the actual APK bytes from GitHub CDN
-    const apkRes = await fetch(asset.browser_download_url);
-
-    if (!apkRes.ok) {
-      return new Response('APK fetch failed.', { status: 502 });
-    }
-
-    // 3. Stream it straight to the user — no redirect, no GitHub URL visible
-    return new Response(apkRes.body, {
-      status: 200,
-      headers: {
-        'Content-Type': 'application/vnd.android.package-archive',
-        'Content-Disposition': `attachment; filename="${ASSET}"`,
-        'Content-Length': String(asset.size),
-        'Cache-Control': 'no-store',
-      },
-    });
-  } catch (err) {
-    return new Response(`Error: ${err.message}`, { status: 500 });
+  } catch {
+    return Response.redirect(FALLBACK, 302);
   }
 }
